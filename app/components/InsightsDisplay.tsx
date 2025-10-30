@@ -1,29 +1,39 @@
 'use client';
 
+import ExportButton from './ExportButton';
+import InsightsStats from './InsightsStats';
+
 interface InsightsDisplayProps {
   insights: string;
   entryCount: number;
+  entries: string[];
 }
 
-export default function InsightsDisplay({ insights, entryCount }: InsightsDisplayProps) {
+export default function InsightsDisplay({ insights, entryCount, entries }: InsightsDisplayProps) {
   const sections = insights.split(/\n(?=#{1,3} )/);
 
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
       {/* Header */}
       <div className="mb-8 pb-6 border-b-2 border-gradient-to-r from-indigo-200 to-purple-200">
-        <div className="flex items-center gap-3 mb-4">
-          <span className="text-5xl">🧠</span>
-          <h2 className="text-4xl font-extrabold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-            Your Personal Insights
-          </h2>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <span className="text-5xl">🧠</span>
+            <h2 className="text-4xl font-extrabold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+              Your Personal Insights
+            </h2>
+          </div>
+          <ExportButton insights={insights} entries={entries} entryCount={entryCount} />
         </div>
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-full border border-indigo-200">
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-full border border-indigo-200 mb-6">
           <span className="text-xl">📊</span>
           <p className="text-gray-700 font-semibold">
             Based on <span className="text-indigo-600 font-bold">{entryCount}</span> diary {entryCount === 1 ? 'entry' : 'entries'}
           </p>
         </div>
+
+        {/* Stats */}
+        <InsightsStats insights={insights} entryCount={entryCount} />
       </div>
 
       {/* Content */}

@@ -3,8 +3,9 @@
 import { useState } from 'react';
 import DiaryUpload from './components/DiaryUpload';
 import InsightsDisplay from './components/InsightsDisplay';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
-export default function Home() {
+function HomeContent() {
   const [entries, setEntries] = useState<string[]>([]);
   const [insights, setInsights] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -78,9 +79,10 @@ export default function Home() {
             )}
 
             {insights && !isAnalyzing && (
-              <InsightsDisplay 
-                insights={insights} 
+              <InsightsDisplay
+                insights={insights}
                 entryCount={entries.length}
+                entries={entries}
               />
             )}
           </div>
@@ -97,5 +99,13 @@ export default function Home() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function Home() {
+  return (
+    <ErrorBoundary>
+      <HomeContent />
+    </ErrorBoundary>
   );
 }
